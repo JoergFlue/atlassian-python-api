@@ -16,6 +16,7 @@ This document explains how to set up secure credentials for testing the Confluen
 
 3. **Edit `.secrets\test.env` with your actual credentials:**
    ```bash
+
    # Your Confluence Cloud URL
    CONFLUENCE_URL=https://your-domain.atlassian.net
    
@@ -37,15 +38,21 @@ This document explains how to set up secure credentials for testing the Confluen
 ## Generating an API Token
 
 1. Go to [Atlassian Account Security](https://id.atlassian.com/manage-profile/security/api-tokens)
+
 2. Click "Create API token"
+
 3. Give it a label like "Confluence v2 API Development"
+
 4. Copy the generated token to your `.env` file
 
 ## Security Notes
 
 - ✅ `.secrets/` directory is excluded from git (never committed)
+
 - ✅ `test_config.py` is excluded from git (contains helper functions)
+
 - ✅ API tokens are more secure than passwords
+
 - ✅ Tokens can be revoked at any time from your Atlassian account
 
 ## Testing Different Environments
@@ -66,15 +73,23 @@ env_path = os.path.join('.secrets', 'dev.env')  # Load specific environment
 ## Troubleshooting
 
 ### "Missing required environment variables" error
+
 - Ensure your `.secrets/test.env` file exists and contains all required variables
+
 - Check that variable names match exactly (case-sensitive)
+
 - Verify there are no extra spaces around the `=` sign
 
 ### Authentication failures
+
 - Verify your API token is correct and not expired
+
 - Ensure your username is the email address associated with your Atlassian account
+
 - Check that your Confluence URL is correct (should end with .atlassian.net for Cloud)
 
 ### Permission errors
+
 - Ensure your account has appropriate permissions in the Confluence space
+
 - For testing, you may need to create a dedicated test space where you have admin rights

@@ -31,7 +31,6 @@ import os
 import sys
 import time
 from typing import Dict, Any, List, Optional, Iterator, Tuple
-from datetime import datetime
 
 # Add the parent directory to the path to import atlassian
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "..", ".."))
@@ -484,7 +483,7 @@ def demonstrate_error_handling():
    def safe_paginate_pages(confluence, space_id, limit=25):
        cursor = None
        all_pages = []
-       
+
        while True:
            try:
                response = confluence._v2_client.get_pages(
@@ -492,26 +491,26 @@ def demonstrate_error_handling():
                    limit=limit,
                    cursor=cursor
                )
-               
+
                pages = response.get('results', [])
                if not pages:
                    break
-               
+
                all_pages.extend(pages)
-               
+
                # Get next cursor
                next_link = response.get('_links', {}).get('next')
                if not next_link:
                    break
-               
+
                cursor = extract_cursor(next_link.get('href'))
                if not cursor:
                    break
-                   
+
            except Exception as e:
                print(f"Pagination error: {e}")
                break
-       
+
        return all_pages
    ```
         """)

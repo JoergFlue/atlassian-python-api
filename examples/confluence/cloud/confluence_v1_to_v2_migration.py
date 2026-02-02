@@ -30,8 +30,6 @@ Configuration:
 
 import os
 import sys
-from typing import Dict, Any, List, Optional
-from datetime import datetime
 
 # Add the parent directory to the path to import atlassian
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "..", ".."))
@@ -395,7 +393,7 @@ def demonstrate_pagination_migration():
            break
        start += limit
    ```
-   
+
    v2 Pagination Pattern:
    ```python
    cursor = None

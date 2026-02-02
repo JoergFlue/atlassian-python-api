@@ -413,9 +413,9 @@ def demonstrate_rate_limiting():
         result = error_handler.safe_api_call(confluence._v2_client.get_spaces, limit=1, max_retries=1)
 
         if result:
-            print(f"   Call {i+1}: Success ({len(result.get('results', []))} results)")
+            print(f"   Call {i + 1}: Success ({len(result.get('results', []))} results)")
         else:
-            print(f"   Call {i+1}: Failed (possibly rate limited)")
+            print(f"   Call {i + 1}: Failed (possibly rate limited)")
 
         # Small delay between calls
         time.sleep(0.1)

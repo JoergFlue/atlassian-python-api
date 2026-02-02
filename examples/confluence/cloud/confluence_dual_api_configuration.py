@@ -29,9 +29,7 @@ Configuration:
 import os
 import sys
 import time
-from typing import Dict, Any, List, Optional, Union
-from datetime import datetime
-import json
+from typing import Dict, Any
 
 # Add the parent directory to the path to import atlassian
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "..", ".."))
@@ -490,7 +488,7 @@ def demonstrate_migration_strategies():
             self.use_v2_api = use_v2_api
             if use_v2_api:
                 self.confluence.enable_v2_api()
-        
+
         def create_page(self, space_id, title, content):
             if self.use_v2_api:
                 return self._create_page_v2(space_id, title, content)

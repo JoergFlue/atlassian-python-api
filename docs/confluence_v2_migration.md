@@ -13,9 +13,13 @@ The atlassian-python-api library now supports both Confluence Cloud v1 and v2 AP
 ### What's Preserved
 
 - All method signatures remain unchanged
+
 - All parameter names and types remain the same
+
 - All return value formats remain consistent
+
 - All error handling behavior remains the same
+
 - Default behavior uses v1 API (no breaking changes)
 
 ## Migration Options
@@ -105,6 +109,7 @@ results = confluence.search_pages_with_cursor("type=page AND space=DEMO", limit=
 v2 API provides cursor-based pagination for better performance with large result sets:
 
 ```python
+
 # v1 API (offset-based, slower for large datasets)
 results = confluence.search_content("type=page", limit=50, start=1000)
 
@@ -117,6 +122,7 @@ results = confluence.search_pages_with_cursor("type=page", limit=50, cursor="cur
 v2 API supports Atlassian Document Format (ADF) natively:
 
 ```python
+
 # v1 API (storage format)
 content_data = {
     "type": "page",
@@ -148,8 +154,11 @@ page = confluence.create_page_with_adf("SPACE123", "My Page", adf_content)
 ### 3. Enhanced Performance
 
 v2 API provides better performance for:
+
 - Large search result sets
+
 - Bulk operations
+
 - Content with rich formatting
 
 ## Migration Warnings
@@ -157,10 +166,14 @@ v2 API provides better performance for:
 The library provides helpful warnings when v2 API would provide better performance:
 
 ```python
+
 # This will issue a warning for large pagination requests
 results = confluence.search_content("type=page", limit=200, start=1000)
+
 # Warning: search_content() will continue to work but consider using 
+
 # search_pages_with_cursor() for cursor-based pagination and better 
+
 # performance with large result sets.
 ```
 
@@ -177,12 +190,19 @@ Check your current API configuration:
 ```python
 info = confluence.get_api_version_info()
 print(info)
+
 # {
+
 #     'v1_available': True,
+
 #     'v2_available': True,
+
 #     'force_v2_api': False,
+
 #     'prefer_v2_api': False,
+
 #     'current_default': 'v1'
+
 # }
 ```
 
@@ -211,10 +231,12 @@ print(info)
 Start by enabling v2 API support without changing your code:
 
 ```python
+
 # Step 1: Enable v2 API
 confluence.enable_v2_api()
 
 # Step 2: Your existing code benefits from v2 performance
+
 # (no code changes required)
 
 # Step 3: Gradually adopt v2-specific methods for new features
@@ -225,6 +247,7 @@ confluence.enable_v2_api()
 For new applications, consider using v2-specific methods:
 
 ```python
+
 # New development - use v2 methods directly
 page = confluence.create_page_with_adf(space_id, title, adf_content)
 results = confluence.search_pages_with_cursor(cql, limit=50)
@@ -250,23 +273,33 @@ def get_page_content(confluence, page_id):
 ### Common Issues
 
 1. **"v2 API client not available" Error**
+
    - Ensure you have proper authentication configured
+
    - Check that your Confluence Cloud instance supports v2 API
 
 2. **Different Response Formats**
+
    - v2 API returns different data structures
+
    - Use v2-specific methods for consistent v2 format
+
    - Use existing methods for v1 format compatibility
 
 3. **Pagination Differences**
+
    - v1 uses `start` and `limit` parameters
+
    - v2 uses `cursor` and `limit` parameters
+
    - Use appropriate method for your pagination needs
 
 ### Getting Help
 
 - Check the API version info: `confluence.get_api_version_info()`
+
 - Enable debug logging to see which API version is being used
+
 - Refer to official Confluence Cloud REST API v2 documentation
 
 ## Summary
@@ -274,9 +307,13 @@ def get_page_content(confluence, page_id):
 The dual API support provides:
 
 - **Complete backward compatibility** - existing code works unchanged
+
 - **Optional v2 features** - enable when you need enhanced functionality
+
 - **Gradual migration path** - migrate at your own pace
+
 - **Performance benefits** - better pagination and content handling
+
 - **Future-proofing** - ready for v2 API adoption
 
 Choose the migration approach that best fits your needs, from no changes required to full v2 API adoption.
