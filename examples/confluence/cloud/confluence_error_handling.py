@@ -38,7 +38,7 @@ import json
 # Add the parent directory to the path to import atlassian
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "..", ".."))
 
-from atlassian.confluence import ConfluenceCloud
+from atlassian.confluence import ConfluenceCloud  # noqa: E402
 
 # Configuration - Update these with your Confluence Cloud details
 CONFLUENCE_URL = "https://your-domain.atlassian.net"

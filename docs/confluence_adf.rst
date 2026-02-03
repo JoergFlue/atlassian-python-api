@@ -372,13 +372,13 @@ The library provides Python classes for easier ADF construction:
 
     # Create document using classes
     document = ADFDocument()
-    
+
     # Add heading
     heading = ADFHeading(level=1, content=[
         ADFText("Welcome to ADF")
     ])
     document.add_content(heading)
-    
+
     # Add paragraph with formatted text
     paragraph = ADFParagraph([
         ADFText("This is "),
@@ -388,18 +388,18 @@ The library provides Python classes for easier ADF construction:
         ADFText(".")
     ])
     document.add_content(paragraph)
-    
+
     # Convert to dictionary for API submission
     adf_dict = document.to_dict()
-    
+
     # Create page with constructed ADF
     page = confluence.create_page_with_adf("SPACE123", "My Page", adf_dict)
 
 Utility Functions
-----------------
+-----------------
 
 Content Conversion
-~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~
 
 .. code-block:: python
 
@@ -427,7 +427,7 @@ Content Conversion
         print("Invalid ADF structure")
 
 Content Detection
-~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~
 
 .. code-block:: python
 
@@ -453,7 +453,7 @@ Complex ADF Examples
 --------------------
 
 Rich Document Example
-~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~
 
 .. code-block:: python
 
@@ -541,13 +541,13 @@ Rich Document Example
     page = confluence.create_page_with_adf("SPACE123", "Complex Document", complex_adf)
 
 Template-Based Content Creation
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. code-block:: python
 
     def create_meeting_notes_adf(meeting_title, date, attendees, agenda_items, notes):
         """Create ADF content for meeting notes."""
-        
+
         content = [
             {
                 "type": "heading",
@@ -567,13 +567,13 @@ Template-Based Content Creation
                 "content": [{"type": "text", "text": "Attendees"}]
             }
         ]
-        
+
         # Add attendees list
         attendees_list = {
             "type": "bulletList",
             "content": []
         }
-        
+
         for attendee in attendees:
             attendees_list["content"].append({
                 "type": "listItem",
@@ -584,21 +584,21 @@ Template-Based Content Creation
                     }
                 ]
             })
-        
+
         content.append(attendees_list)
-        
+
         # Add agenda
         content.append({
             "type": "heading",
             "attrs": {"level": 2},
             "content": [{"type": "text", "text": "Agenda"}]
         })
-        
+
         agenda_list = {
             "type": "orderedList",
             "content": []
         }
-        
+
         for item in agenda_items:
             agenda_list["content"].append({
                 "type": "listItem",
@@ -609,21 +609,21 @@ Template-Based Content Creation
                     }
                 ]
             })
-        
+
         content.append(agenda_list)
-        
+
         # Add notes section
         content.append({
             "type": "heading",
             "attrs": {"level": 2},
             "content": [{"type": "text", "text": "Notes"}]
         })
-        
+
         content.append({
             "type": "paragraph",
             "content": [{"type": "text", "text": notes}]
         })
-        
+
         return {
             "version": 1,
             "type": "doc",
@@ -650,7 +650,7 @@ Best Practices
 --------------
 
 Structure and Organization
-~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. code-block:: python
 
@@ -688,27 +688,27 @@ Structure and Organization
     # Don't create documents with only paragraphs or only headings
 
 Content Validation
-~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~
 
 .. code-block:: python
 
     def create_safe_adf_page(space_id, title, adf_content):
         """Safely create a page with ADF content validation."""
-        
+
         # Validate ADF structure
         if not validate_adf_document(adf_content):
             raise ValueError("Invalid ADF document structure")
-        
+
         # Check for required fields
         if adf_content.get("version") != 1:
             raise ValueError("ADF version must be 1")
-        
+
         if adf_content.get("type") != "doc":
             raise ValueError("ADF type must be 'doc'")
-        
+
         if not isinstance(adf_content.get("content"), list):
             raise ValueError("ADF content must be a list")
-        
+
         # Create the page
         try:
             return confluence.create_page_with_adf(space_id, title, adf_content)
@@ -717,7 +717,7 @@ Content Validation
             raise
 
 Performance Considerations
-~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. code-block:: python
 
@@ -780,7 +780,7 @@ Invalid Structure
     }
 
 Incorrect Node Types
-~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~
 
 .. code-block:: python
 
@@ -805,7 +805,7 @@ Incorrect Node Types
     }
 
 Text Mark Issues
-~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~
 
 .. code-block:: python
 
@@ -836,3 +836,4 @@ Resources
 - `Atlassian Document Format Specification <https://developer.atlassian.com/cloud/confluence/adf/>`_
 - `Confluence Cloud REST API v2 Documentation <https://developer.atlassian.com/cloud/confluence/rest/v2/>`_
 - `ADF Builder Tool <https://developer.atlassian.com/cloud/confluence/adf-builder/>`_
+

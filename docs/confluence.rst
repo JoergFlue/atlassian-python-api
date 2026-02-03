@@ -1,7 +1,9 @@
 Confluence module
 =================
 
-The Confluence module provides both Cloud and Server implementations with dedicated APIs for each platform. The Cloud implementation includes comprehensive support for both Confluence Cloud v1 and v2 APIs with complete backward compatibility, ADF (Atlassian Document Format) content support, and cursor-based pagination.
+The Confluence module provides both Cloud and Server implementations with dedicated APIs for each platform. 
+The Cloud implementation includes comprehensive support for both Confluence Cloud v1 and v2 APIs with complete 
+backward compatibility, ADF (Atlassian Document Format) content support, and cursor-based pagination.
 
 Implementation Overview
 -----------------------
@@ -27,7 +29,8 @@ The Confluence implementation follows a structured pattern with dedicated Cloud 
 
 .. note::
    For comprehensive ADF (Atlassian Document Format) documentation, see :doc:`confluence_adf`.
-   For detailed v2 API migration guidance, see the `Confluence v2 Migration Guide <confluence_v2_migration.html>`_.
+   For detailed v2 API migration guidance, see the 
+   `Confluence v2 Migration Guide <confluence_v2_migration.html>`_.
 
 Confluence Cloud v2 API Support
 -------------------------------
@@ -43,7 +46,8 @@ The library provides comprehensive support for Confluence Cloud v2 API with comp
 
 **Backward Compatibility Guarantee:**
 
-All existing method signatures and behaviors are preserved. Your existing code will continue to work exactly as before without any changes required.
+All existing method signatures and behaviors are preserved. Your existing code will continue to work 
+exactly as before without any changes required.
 
 v2 API Configuration Options
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -110,7 +114,7 @@ Content Management with ADF
             }
         ]
     }
-    
+
     page = confluence.create_page_with_adf(
         space_id="SPACE123",
         title="My ADF Page",
@@ -131,7 +135,7 @@ Content Management with ADF
             }
         ]
     }
-    
+
     updated_page = confluence.update_page_with_adf(
         page_id="123456",
         title="Updated Title",
@@ -144,7 +148,7 @@ Content Management with ADF
         page_id="123456",
         expand=['body', 'version', 'space']
     )
-    
+
     # Access ADF content
     adf_body = page['body']['atlas_doc_format']['value']
 
@@ -158,9 +162,9 @@ Cursor-Based Pagination
         cql="type=page AND space=DEMO",
         limit=50
     )
-    
+
     pages = results['results']
-    
+
     # Get next page using cursor
     if 'next' in results['_links']:
         next_cursor = results['_links']['next']['cursor']
@@ -173,20 +177,20 @@ Cursor-Based Pagination
     # Iterate through all results
     all_pages = []
     cursor = None
-    
+
     while True:
         results = confluence.search_pages_with_cursor(
             cql="type=page AND space=DEMO",
             limit=100,
             cursor=cursor
         )
-        
+
         all_pages.extend(results['results'])
-        
+
         # Check if there are more results
         if 'next' not in results.get('_links', {}):
             break
-        
+
         cursor = results['_links']['next']['cursor']
 
 ADF Content Creation Patterns
@@ -311,20 +315,20 @@ ADF Utility Functions
 
     # Create ADF from plain text
     adf_doc = convert_text_to_adf("Hello, World!")
-    
+
     # Validate ADF structure
     is_valid = validate_adf_document(adf_doc)
-    
+
     # Build ADF using classes
     document = ADFDocument()
     heading = ADFHeading(level=1, content=[ADFText("My Heading")])
     paragraph = ADFParagraph([ADFText("Some content")])
-    
+
     document.add_content(heading)
     document.add_content(paragraph)
-    
+
     adf_dict = document.to_dict()
-    
+
     # Create page with programmatically built ADF
     page = confluence.create_page_with_adf("SPACE123", "Built Page", adf_dict)
 
@@ -362,15 +366,15 @@ Migration from v1 to v2 API
 
     # Gradual migration approach
     confluence.enable_v2_api()  # Enable v2 features
-    
+
     # Existing methods now benefit from v2 performance
     results = confluence.search_content("type=page", limit=100)  # Uses cursor pagination
-    
+
     # New methods provide v2-specific features
     results = confluence.search_pages_with_cursor("type=page", limit=100)
 
 API Version Information
-~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~
 
 .. code-block:: python
 
@@ -432,7 +436,7 @@ Performance Optimization
         ("Page 2", adf_content_2),
         ("Page 3", adf_content_3)
     ]
-    
+
     created_pages = []
     for title, content in pages_to_create:
         page = confluence.create_page_with_adf("SPACE123", title, content)
@@ -447,7 +451,7 @@ Content Format Handling
 
     # Detect content format automatically
     content_format = detect_content_format(content)
-    
+
     if content_format == "adf":
         # Content is already in ADF format
         page = confluence.create_page_with_adf("SPACE123", "Title", content)
@@ -480,21 +484,21 @@ Error Handling
 
     # Validate ADF content before submission
     from atlassian.adf import validate_adf_document
-    
+
     if not validate_adf_document(adf_content):
         raise ValueError("Invalid ADF content structure")
-    
+
     page = confluence.create_page_with_adf("SPACE123", "Title", adf_content)
 
 Version Management
-~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~
 
 .. code-block:: python
 
     # Always use version numbers for updates to prevent conflicts
     page = confluence.get_page_with_adf("123456", expand=['version'])
     current_version = page['version']['number']
-    
+
     # Update with version for optimistic locking
     updated_page = confluence.update_page_with_adf(
         page_id="123456",
@@ -504,12 +508,13 @@ Version Management
     )
 
 Troubleshooting v2 API
----------------------
+~~~~~~~~~~~~~~~~~~~~~~
 
-This section covers common issues when working with Confluence Cloud v2 API and their solutions.
+This section covers common issues when working with Confluence Cloud v2 API and their 
+solutions.
 
 Common Issues and Solutions
-~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 **1. "v2 API client not available" Error**
 
@@ -520,11 +525,11 @@ This error occurs when the v2 API client is not properly initialized or configur
     # Check if v2 API is properly configured
     info = confluence.get_api_version_info()
     print(f"v2 available: {info['v2_available']}")
-    
+
     if not info['v2_available']:
         # Reinitialize v2 client
         confluence.enable_v2_api()
-        
+
         # Verify it's now available
         info = confluence.get_api_version_info()
         if not info['v2_available']:
@@ -543,7 +548,7 @@ ADF content must follow a specific structure. Common validation errors include m
 .. code-block:: python
 
     from atlassian.adf import validate_adf_document
-    
+
     # Always validate ADF before submission
     adf_content = {
         "version": 1,
@@ -555,7 +560,7 @@ ADF content must follow a specific structure. Common validation errors include m
             }
         ]
     }
-    
+
     if not validate_adf_document(adf_content):
         print("Invalid ADF structure")
         # Common fixes:
@@ -563,7 +568,7 @@ ADF content must follow a specific structure. Common validation errors include m
         # - Ensure type is "doc"
         # - Ensure content is a list
         # - Check all node types are valid
-        
+
         # Fix common issues automatically
         fixed_adf = {
             "version": 1,
@@ -590,7 +595,7 @@ Cursor-based pagination can fail if cursors are malformed or expired.
         cursor = None
         max_iterations = 1000  # Prevent infinite loops
         iteration = 0
-        
+
         while iteration < max_iterations:
             try:
                 results = confluence.search_pages_with_cursor(
@@ -598,31 +603,31 @@ Cursor-based pagination can fail if cursors are malformed or expired.
                     limit=limit,
                     cursor=cursor
                 )
-                
+
                 # Extract results
                 page_results = results.get('results', [])
                 if not page_results:
                     break
-                    
+
                 all_results.extend(page_results)
-                
+
                 # Check for next page
                 next_link = results.get('_links', {}).get('next')
                 if not next_link:
                     break
-                    
+
                 cursor = next_link.get('cursor')
                 if not cursor:
                     break
-                    
+
                 iteration += 1
-                
+
             except Exception as e:
                 print(f"Error during pagination at iteration {iteration}: {e}")
                 # Log the cursor that failed
                 print(f"Failed cursor: {cursor}")
                 break
-        
+
         return all_results
 
 **Cursor Pagination Best Practices:**
@@ -640,20 +645,20 @@ Converting between different content formats (storage, ADF, wiki) can cause issu
 
     from atlassian.request_utils import detect_content_format
     from atlassian.adf import convert_text_to_adf, validate_adf_document
-    
+
     def safe_create_page(confluence, space_id, title, content):
         """Safely create a page handling different content formats."""
         try:
             # Detect content format
             content_format = detect_content_format(content)
-            
+
             if content_format == "adf":
                 # Validate ADF content
                 if validate_adf_document(content):
                     return confluence.create_page_with_adf(space_id, title, content)
                 else:
                     raise ValueError("Invalid ADF content structure")
-            
+
             elif content_format == "storage":
                 # Convert storage to ADF (basic conversion)
                 try:
@@ -673,12 +678,12 @@ Converting between different content formats (storage, ADF, wiki) can cause issu
                             }
                         }
                     })
-            
+
             else:
                 # Treat as plain text
                 adf_content = convert_text_to_adf(str(content))
                 return confluence.create_page_with_adf(space_id, title, adf_content)
-                
+
         except Exception as e:
             print(f"Failed to create page: {e}")
             # Last resort: use v1 API with basic content
@@ -710,11 +715,11 @@ v2 API requires proper authentication and permissions.
             # Test basic v2 API access
             info = confluence.get_api_version_info()
             print(f"API Info: {info}")
-            
+
             if not info['v2_available']:
                 print("v2 API not available - check authentication")
                 return False
-            
+
             # Test actual v2 API call
             try:
                 # Try a simple v2 API operation
@@ -724,7 +729,7 @@ v2 API requires proper authentication and permissions.
                 )
                 print("v2 API access successful")
                 return True
-                
+
             except Exception as api_error:
                 print(f"v2 API call failed: {api_error}")
                 # Check if it's a permission issue
@@ -733,7 +738,7 @@ v2 API requires proper authentication and permissions.
                 elif "401" in str(api_error) or "Unauthorized" in str(api_error):
                     print("Authentication failed - check API token validity")
                 return False
-                
+
         except Exception as e:
             print(f"Failed to test v2 API access: {e}")
             return False
@@ -762,7 +767,7 @@ v2 API uses Space IDs (UUIDs) while v1 API uses Space Keys (strings).
                 # v2 API call to get space by ID
                 # (Implementation depends on available v2 methods)
                 return {'id': space_identifier}
-                
+
         except Exception as e:
             print(f"Failed to get space info for '{space_identifier}': {e}")
             return None
@@ -775,23 +780,23 @@ v2 API uses Space IDs (UUIDs) while v1 API uses Space Keys (strings).
         page = confluence.create_page_with_adf(space_id, "Title", adf_content)
 
 Debug Mode and Logging
-~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~
 
 Enable detailed logging to troubleshoot v2 API issues:
 
 .. code-block:: python
 
     import logging
-    
+
     # Enable debug logging
     logging.basicConfig(level=logging.DEBUG)
     logger = logging.getLogger('atlassian')
     logger.setLevel(logging.DEBUG)
-    
+
     # This will show detailed API calls and responses
     confluence.enable_v2_api()
     page = confluence.get_content("123456")
-    
+
     # You'll see output like:
     # DEBUG:atlassian:Using v2 API for get_content
     # DEBUG:atlassian:GET https://domain.atlassian.net/wiki/api/v2/pages/123456
@@ -803,15 +808,15 @@ Enable detailed logging to troubleshoot v2 API issues:
     def debug_api_call(confluence, operation_name, *args, **kwargs):
         """Debug wrapper for API calls."""
         print(f"=== DEBUG: {operation_name} ===")
-        
+
         # Show API version info
         info = confluence.get_api_version_info()
         print(f"API Config: {info}")
-        
+
         # Show arguments
         print(f"Args: {args}")
         print(f"Kwargs: {kwargs}")
-        
+
         try:
             # Execute the operation
             method = getattr(confluence, operation_name)
@@ -827,30 +832,30 @@ Enable detailed logging to troubleshoot v2 API issues:
     page = debug_api_call(confluence, 'get_content', '123456')
 
 Migration Warnings and Compatibility
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 The library provides helpful warnings when v2 API would provide better performance:
 
 .. code-block:: python
 
     import warnings
-    
+
     # Capture migration warnings
     with warnings.catch_warnings(record=True) as w:
         warnings.simplefilter("always")
-        
+
         # This will issue a warning for large pagination requests
         results = confluence.search_content("type=page", limit=200, start=1000)
-        
+
         if w:
             for warning in w:
                 print(f"Warning: {warning.message}")
                 print(f"Category: {warning.category}")
                 # Example output:
-                # Warning: search_content() will continue to work but consider using 
-                # search_pages_with_cursor() for cursor-based pagination and better 
+                # Warning: search_content() will continue to work but consider using
+                # search_pages_with_cursor() for cursor-based pagination and better
                 # performance with large result sets.
-    
+
     # Disable warnings by enabling v2 API
     confluence.enable_v2_api()  # No more warnings
 
@@ -861,7 +866,7 @@ The library provides helpful warnings when v2 API would provide better performan
     def get_page_content_compatible(confluence, page_id):
         """Get page content with backward compatibility."""
         info = confluence.get_api_version_info()
-        
+
         if info['current_default'] == 'v2' or info['prefer_v2_api']:
             # Use v2 API
             try:
@@ -873,7 +878,7 @@ The library provides helpful warnings when v2 API would provide better performan
             except Exception:
                 # Fall back to v1
                 pass
-        
+
         # Use v1 API
         page = confluence.get_content(page_id, expand='body.storage')
         return {
@@ -882,7 +887,7 @@ The library provides helpful warnings when v2 API would provide better performan
         }
 
 Performance Troubleshooting
-~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 **1. Slow Pagination Performance**
 
@@ -890,7 +895,7 @@ Performance Troubleshooting
 
     # Slow: Large offset-based pagination
     results = confluence.search_content("type=page", limit=50, start=5000)
-    
+
     # Fast: Cursor-based pagination
     confluence.enable_v2_api()
     results = confluence.search_pages_with_cursor("type=page", limit=50)
@@ -902,19 +907,19 @@ Performance Troubleshooting
     # For large ADF documents, validate structure first
     def create_large_page_safely(confluence, space_id, title, adf_content):
         """Create large pages with validation and chunking if needed."""
-        
+
         # Validate ADF structure
         if not validate_adf_document(adf_content):
             raise ValueError("Invalid ADF structure")
-        
+
         # Check content size (rough estimate)
         import json
         content_size = len(json.dumps(adf_content))
-        
+
         if content_size > 1024 * 1024:  # 1MB
             print(f"Warning: Large content size ({content_size} bytes)")
             # Consider splitting into multiple pages
-        
+
         try:
             return confluence.create_page_with_adf(space_id, title, adf_content)
         except Exception as e:
@@ -923,7 +928,7 @@ Performance Troubleshooting
             raise
 
 Error Code Reference
-~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~
 
 Common HTTP error codes and their meanings in v2 API context:
 
@@ -968,7 +973,7 @@ Common HTTP error codes and their meanings in v2 API context:
 - Temporary service unavailability
 
 Getting Additional Help
-~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~
 
 If you encounter issues not covered in this troubleshooting guide:
 
@@ -987,18 +992,18 @@ If you encounter issues not covered in this troubleshooting guide:
     def diagnose_confluence_setup(confluence):
         """Run basic diagnostics on Confluence setup."""
         print("=== Confluence Setup Diagnostics ===")
-        
+
         # API version info
         info = confluence.get_api_version_info()
         print(f"API Version Info: {info}")
-        
+
         # Test basic connectivity
         try:
             spaces = confluence.get_all_spaces(limit=1)
             print(f"Basic connectivity: OK (found {len(spaces)} spaces)")
         except Exception as e:
             print(f"Basic connectivity: FAILED - {e}")
-        
+
         # Test v2 API if available
         if info.get('v2_available'):
             try:
@@ -1008,7 +1013,7 @@ If you encounter issues not covered in this troubleshooting guide:
                 print(f"v2 API access: FAILED - {e}")
         else:
             print("v2 API: Not available")
-        
+
         print("=== End Diagnostics ===")
 
     # Run diagnostics

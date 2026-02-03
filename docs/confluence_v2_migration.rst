@@ -43,7 +43,7 @@ Your existing code continues to work unchanged:
     results = confluence.search_content("type=page AND space=DEMO")
 
 Option 2: Enable v2 API for Enhanced Features
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Enable v2 API support for new features while maintaining compatibility:
 
@@ -69,7 +69,7 @@ Force all operations to use v2 API:
 
     # Force v2 API usage
     confluence = ConfluenceCloud(
-        url="https://your-domain.atlassian.net", 
+        url="https://your-domain.atlassian.net",
         token="your-token",
         force_v2_api=True
     )
@@ -78,7 +78,7 @@ Force all operations to use v2 API:
     confluence.enable_v2_api(force=True)
 
 Option 4: Use v2-Specific Methods
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Use new v2-specific methods for enhanced functionality:
 
@@ -111,7 +111,7 @@ Key Benefits of v2 API
 ----------------------
 
 1. Cursor-Based Pagination
-~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 v2 API provides cursor-based pagination for better performance with large result sets:
 
@@ -124,7 +124,7 @@ v2 API provides cursor-based pagination for better performance with large result
     results = confluence.search_pages_with_cursor("type=page", limit=50, cursor="cursor_token")
 
 2. Native ADF Support
-~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~
 
 v2 API supports Atlassian Document Format (ADF) natively:
 
@@ -158,7 +158,7 @@ v2 API supports Atlassian Document Format (ADF) natively:
     page = confluence.create_page_with_adf("SPACE123", "My Page", adf_content)
 
 3. Enhanced Performance
-~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~
 
 v2 API provides better performance for:
 
@@ -175,8 +175,8 @@ The library provides helpful warnings when v2 API would provide better performan
 
     # This will issue a warning for large pagination requests
     results = confluence.search_content("type=page", limit=200, start=1000)
-    # Warning: search_content() will continue to work but consider using 
-    # search_pages_with_cursor() for cursor-based pagination and better 
+    # Warning: search_content() will continue to work but consider using
+    # search_pages_with_cursor() for cursor-based pagination and better
     # performance with large result sets.
 
 To disable warnings, enable v2 API support:
@@ -206,7 +206,7 @@ Method Mapping
 --------------
 
 Content Management
-~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~
 
 .. list-table::
    :header-rows: 1
@@ -249,7 +249,7 @@ Best Practices
 --------------
 
 1. Gradual Migration
-~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~
 
 Start by enabling v2 API support without changing your code:
 
@@ -264,7 +264,7 @@ Start by enabling v2 API support without changing your code:
     # Step 3: Gradually adopt v2-specific methods for new features
 
 2. Use v2 for New Development
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 For new applications, consider using v2-specific methods:
 
@@ -275,7 +275,7 @@ For new applications, consider using v2-specific methods:
     results = confluence.search_pages_with_cursor(cql, limit=50)
 
 3. Handle Both Formats
-~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~
 
 If you need to support both v1 and v2 responses:
 
@@ -294,27 +294,27 @@ Troubleshooting
 --------------
 
 Common Issues
-~~~~~~~~~~~~
+~~~~~~~~~~~~~
 
 1. **"v2 API client not available" Error**
-   
+
    - Ensure you have proper authentication configured
    - Check that your Confluence Cloud instance supports v2 API
 
 2. **Different Response Formats**
-   
+
    - v2 API returns different data structures
    - Use v2-specific methods for consistent v2 format
    - Use existing methods for v1 format compatibility
 
 3. **Pagination Differences**
-   
+
    - v1 uses ``start`` and ``limit`` parameters
    - v2 uses ``cursor`` and ``limit`` parameters
    - Use appropriate method for your pagination needs
 
 Getting Help
-~~~~~~~~~~~
+~~~~~~~~~~~~
 
 - Check the API version info: ``confluence.get_api_version_info()``
 - Enable debug logging to see which API version is being used
